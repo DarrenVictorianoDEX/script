@@ -36,6 +36,14 @@ DISCOVER_NS = [
 SPC_NS = [
     "streaming-pipeline-creator-patest"
 ]
+SPC_NS2 = [
+    "nimbus-bd-ingestion-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
+    "nimbus-bd-reconcile-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
+    "nimbus-bd-recovery-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
+    "nimbus-rt-ingestion-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
+    "nimbus-rt-reconcile-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
+    "nimbus-rt-recovery-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd"
+]
 
 
 def convert_txt_file_to_list(filepath):
