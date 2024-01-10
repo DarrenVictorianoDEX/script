@@ -386,13 +386,13 @@ if __name__ == "__main__":
         for i in namespace_list:
             print(f'\t- {i}')
         print(f"Image to update to: {image} \n")
-        update_image_for_namespace_list(image=image, NS_list=namespace_list, debug=True, boot_check=args.boot)
+        update_image_for_namespace_list(image=image, NS_list=namespace_list, debug=True, boot=args.boot)
     else:
         print("------- REAL RUN -------")
         print(f"Updating {len(namespace_list)} Job/s listed below:")
         for i in namespace_list:
             print(f'- {i}')
         print(f"Image to update to: {image} \n")
-        update_image_for_namespace_list(image=image, NS_list=namespace_list, debug=False, boot_check=args.boot)
+        update_image_for_namespace_list(image=image, NS_list=namespace_list, debug=False, boot=args.boot)
     exec_cmd('say -v Samantha "Image update successfully completed."')
     print("------- ALL UPDATES DONE -------")
