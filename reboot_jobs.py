@@ -85,6 +85,8 @@ def get_ns_list(pipeline):
         return DISCOVER_NS
     elif pipeline.lower() == "spc":
         return SPC_NS
+    elif pipeline.lower() == "spc2":
+        return SPC_NS2
     elif pipeline.lower() == "all":
         return REALTIME_NS + BULK_NS + CLINIC_NS + DISCOVER_NS
     elif pipeline.lower() == "test":
