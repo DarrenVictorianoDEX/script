@@ -229,7 +229,7 @@ def update_image(NS, SN, image, type, debug=False):
         type = type.lower()
     else:
         raise Exception(f"invalid service type {type}")
-    cmd = f"kubectl set image -n {NS}  {type}.apps/{SN} {SN}={image}"
+    cmd = f"kubectl set image -n {NS} {type}.apps/{SN} {SN}={image}"
     if debug:
         print("\n---------- Not updating because debug mode is ON ----------")
         print(f'Namespace: {NS}')
