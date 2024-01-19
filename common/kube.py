@@ -287,7 +287,7 @@ def update_image_for_namespace_list(image, NS_list, debug=False, boot=False):
         for namespace, service_name_list in STATEFUL_NS.items():
             for service_name in service_name_list:
                 update_image(namespace, service_name, image, "statefulset", debug)
-                if namespace == "streaming-pipeline-creator-patest":
+                if "streaming-pipeline-creator" in namespace:
                     update_image_tag_for_spc(namespace, service_name, image, "statefulset", debug)
             if boot:
                 wait_pod_to_boot(namespace, debug=debug)
