@@ -1,8 +1,4 @@
-import re
 import subprocess
-import json
-import sys
-import time
 
 
 def exec_cmd(cmd, wait=True, p=None):

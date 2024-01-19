@@ -1,4 +1,4 @@
-from common import exec_cmd
+from common import utils
 import re
 import time
 
@@ -61,16 +61,17 @@ def get_ns_list(pipeline):
 def get_all_pods_status(namespace, counter=1):
     """
     Get kubernetes status of appcompat namespace
-    Returns:
+    :param namespace (str)
+    :return
         [{'NAME': 'pod_name',
         'READY': '2/2',
         'STATUS': 'Running',
         'RESTARTS': '0',
         'AGE': '14d'}]
     """
-    # terminal.exec_cmd() returns two item:
+    # terminal.utils.exec_cmd() returns two item:
     # # boolean (if it returns stdout = true), stdout of the command
-    exec_return, pod_status = exec_cmd('kubectl get pods -n ' + namespace)
+    exec_return, pod_status = utils.exec_cmd('kubectl get pods -n ' + namespace)
     pod_status = pod_status[:-1] if pod_status.endswith('\n') else pod_status
     if not exec_return and counter > 5:
         raise Exception(pod_status)
@@ -136,7 +137,7 @@ def wait_pod_to_boot(namespace, timeout_time=600, debug=False):
                 print(f'--------- All pods are now up and running for {namespace} namespace. ---------\n')
                 break
             if end_time < time.time():
-                exec_cmd('say -v Samantha "Image update failed. pods failed to boot."')
+                utils.exec_cmd('say -v Samantha "Image update failed. pods failed to boot."')
                 raise Exception(f'Timeout after {timeout_time}, pods failed to boot')
             time.sleep(5)
 
@@ -151,7 +152,7 @@ def get_service_names(namespace, type):
     else:
         raise Exception("must specify either statefulsets or deployments")
 
-    exec_return, stdout = exec_cmd(f'kubectl get {type} -n {namespace}')
+    exec_return, stdout = utils.exec_cmd(f'kubectl get {type} -n {namespace}')
     if not exec_return:
         print(f'{str(type).title()}: {stdout}')
         return []
@@ -185,7 +186,7 @@ def get_all_service_name_by_type(namespace, service_type):
         raise Exception("must specify either statefulsets or deployments")
 
     print(f'Getting service names from {service_type} namespace {namespace} -o jsonpath="{{.items[*].spec.serviceName}}"')
-    exec_return, stdout = exec_cmd(f'kubectl get {service_type} -n {namespace} -o jsonpath="{{.items[*].spec.serviceName}}"')
+    exec_return, stdout = utils.exec_cmd(f'kubectl get {service_type} -n {namespace} -o jsonpath="{{.items[*].spec.serviceName}}"')
     if not exec_return:
         print(f'{str(service_type).title()}: {stdout}')
         return []
@@ -240,7 +241,7 @@ def update_image(NS, SN, image, type, debug=False):
         print(f'Service: {SN}')
         print(f'Image: {image}')
         print(f'Command: {cmd}')
-        successful, stdout = exec_cmd(cmd)
+        successful, stdout = utils.exec_cmd(cmd)
         if not successful:
             raise Exception(f'Failed to execute command: {cmd}')
         elif not stdout:
@@ -262,7 +263,7 @@ def update_image_tag_for_spc(NS, SN, image, type, debug):
         print(f'command: {cmd}')
     else:
         print("updating image tag of streaming-pipeline-creator as well.")
-        successful, stdout = exec_cmd(cmd)
+        successful, stdout = utils.exec_cmd(cmd)
         if not successful:
             raise Exception(f'Failed to execute command: {cmd}')
         elif not stdout:
@@ -300,3 +301,29 @@ def update_image_for_namespace_list(image, NS_list, debug=False, boot=False):
                 update_image(namespace, service_name, image, "deployment", debug)
             if boot:
                 wait_pod_to_boot(namespace, debug=debug)
+
+
+def exec_reboot_namespace(cmd):
+    successful, stdout = utils.exec_cmd(cmd)
+    if not successful:
+        raise Exception(f'Failed to execute command: {cmd}')
+    elif not stdout:
+        print("reboot failed.")
+    else:
+        print(stdout)
+
+
+def reboot_namespace_list(NS_list, debug=True):
+    cmd_list = []
+    for ns in NS_list:
+        cmd_list.append(f"kubectl delete pods -n {ns}  --all")
+    if debug:
+        print("\n---------- Not rebooting because debug mode is ON ----------")
+        for cmd in cmd_list:
+            print(f'Command: {cmd}')
+    else:
+        print('--- Rebooting ---')
+        for cmd in cmd_list:
+            print(f'Command: {cmd}')
+            exec_reboot_namespace(cmd)
+
