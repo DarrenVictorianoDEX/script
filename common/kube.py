@@ -303,6 +303,11 @@ def update_image_for_namespace_list(image, NS_list, debug=False, boot=False):
                 wait_pod_to_boot(namespace, debug=debug)
 
 
+def update_fluentd_image_for_namespace_list(image, NS_List, debug=False, boot=False):
+    # TODO: update fluentd image for slave workers
+    pass
+
+
 def exec_reboot_namespace(cmd):
     successful, stdout = utils.exec_cmd(cmd)
     if not successful:
@@ -316,7 +321,7 @@ def exec_reboot_namespace(cmd):
 def reboot_namespace_list(NS_list, debug=True):
     cmd_list = []
     for ns in NS_list:
-        cmd_list.append(f"kubectl delete pods -n {ns}  --all")
+        cmd_list.append(f"kubectl delete pods -n {ns} --all")
     if debug:
         print("\n---------- Not rebooting because debug mode is ON ----------")
         for cmd in cmd_list:
