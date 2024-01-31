@@ -303,9 +303,32 @@ def update_image_for_namespace_list(image, NS_list, debug=False, boot=False):
                 wait_pod_to_boot(namespace, debug=debug)
 
 
+def update_fluentd_image(NS, image, debug=False):
+    cmd = f'kubectl -n {NS} set image statefulset/spark-slave fluentd-sc={image}'
+    if debug:
+        print("\n---------- Not updating because debug mode is ON ----------")
+        print(f'Namespace: {NS}')
+        print(f'Image: {image}')
+        print(f'Command: {cmd}')
+    else:
+        print(f'Updating namespace: {NS}')
+        print(f'Image: {image}')
+        print(f'Command: {cmd}')
+        successful, stdout = utils.exec_cmd(cmd)
+        if not successful:
+            raise Exception(f'Failed to execute command: {cmd}')
+        elif not stdout:
+            print("image not updated")
+            print(f'for namespace {NS}')
+            print(f'may already be using the image: {image}')
+            print("----------------------------------------\n")
+        else:
+            print(stdout)
+
+
 def update_fluentd_image_for_namespace_list(image, NS_List, debug=False, boot=False):
-    # TODO: update fluentd image for slave workers
-    pass
+    for ns in NS_List:
+        update_fluentd_image(ns, image, debug)
 
 
 def exec_reboot_namespace(cmd):
