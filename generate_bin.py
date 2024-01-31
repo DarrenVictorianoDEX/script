@@ -3,13 +3,17 @@ import argparse
 from argparse import RawTextHelpFormatter
 
 
-def main(branch):
+def main():
     f"""
     In order to instantiate the niles class,
     1. a client id to niles api
     2. a client secret to niles api
     3. [Optional] url to change the endpoint base url
     """
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
+    parser.add_argument('branch', type=str, default="main", help='name of the branch')
+    args = parser.parse_args()
+    branch = args.branch
     NILESUpload.DEBUG = True
     obj = NILESUpload(
         # optional url="your niles api url",
@@ -46,10 +50,5 @@ def main(branch):
     #     save_niles_file_to="your new path + 'filename.txt")
 
 
-parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
-parser.add_argument('branch', type=str, default="main", help='name of the branch')
-args = parser.parse_args()
-
 if __name__ == "__main__":
-    branch = args.branch
-    main(branch)
+    main()

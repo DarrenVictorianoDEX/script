@@ -44,5 +44,6 @@ def main():
     utils.exec_cmd('say -v Samantha "Image update successfully completed."')
     print("------- ALL UPDATES DONE -------")
 
+
 if __name__ == "__main__":
     main()
