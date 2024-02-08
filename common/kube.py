@@ -52,10 +52,10 @@ def get_ns_list(pipeline):
     :param (str)pipeline - name of the pipeline list
     :return (list)
     """
-    if pipeline.lower() == 'all':
-        return list(PATEST_PIPELINES.values())
+    if pipeline in PATEST_PIPELINES:
+        return PATEST_PIPELINES[pipeline]
     else:
-        return PATEST_PIPELINES.get(pipeline, None)
+        return [pipeline for pipelines in PATEST_PIPELINES.values() for pipeline in pipelines]
 
 
 def get_all_pods_status(namespace, counter=1):
