@@ -1,6 +1,7 @@
 from common import utils
 import re
 import time
+import json
 
 
 PATEST_PIPELINES = dict(
@@ -355,3 +356,42 @@ def reboot_namespace_list(NS_list, debug=True):
             print(f'Command: {cmd}')
             exec_reboot_namespace(cmd)
 
+
+def get_ingress(namespace):
+    cmd = f"kubectl get ingress -n {namespace} | awk 'NR>1 {{print $1}}'"
+    print(f'getting ingress from namespace: {namespace}')
+    print(f'Command: {cmd}')
+    successful, stdout = utils.exec_cmd(cmd)
+    if not successful:
+        raise Exception(f'Failed to execute command: {cmd}')
+    elif not stdout:
+        print("command failed}")
+        print(f'for namespace {namespace}')
+        print("----------------------------------------\n")
+    else:
+        print(stdout)
+        return stdout.strip().split("\n")
+
+
+def patch_ingress_whitelist(ingress_name, namespace, netskope_ip, debug=True):
+    json_cmd = {"op": "add", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1whitelist-source-range", "value": netskope_ip}
+    cmd = f"kubectl patch ingress {ingress_name} -n {namespace} --type='json' -p='[{json.dumps(json_cmd)}]'"
+
+    if debug:
+        print("\n---------- Not updating because debug mode is ON ----------")
+        print(f'Namespace: {namespace}')
+        print(f'Ingress: {ingress_name}')
+        print(f'Command: {cmd}')
+    else:
+        print(f'Updating namespace: {namespace}')
+        print(f'Ingress: {ingress_name}')
+        print(f'Command: {cmd}')
+        successful, stdout = utils.exec_cmd(cmd)
+        if not successful:
+            raise Exception(f'Failed to execute command: {cmd}')
+        elif not stdout:
+            print("command failed}")
+            print(f'for namespace {namespace}')
+            print("----------------------------------------\n")
+        else:
+            print(stdout)
