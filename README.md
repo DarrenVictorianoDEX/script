@@ -11,7 +11,7 @@ alias patchnetskope='conda activate py38; python {LOCAL_PATH}script/patch_netsko
 ```
 
 ## Usage
-The scripts are documented, just pass in `-h` like:
+The scripts are documented, just pass in `-h` to see how to use it.
 ```
 patchnetskope -h
 ```
