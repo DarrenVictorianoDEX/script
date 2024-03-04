@@ -19,6 +19,8 @@ def main():
     if args.file:
         namespace_list = utils.convert_txt_file_to_list(ns)
     
+    print(f'Netskope IP count: {len(netskope_ips.split(","))}')
+
     if args.debug:
         print("------- DEBUG RUN -------")
         print(f"Updating {len(namespace_list)} Job/s listed below:")
