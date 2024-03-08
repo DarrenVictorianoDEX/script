@@ -12,5 +12,25 @@ alias patchnetskope='conda activate py38; python {LOCAL_PATH}script/patch_netsko
 ## Usage
 The scripts are documented, just pass in `-h` to see how to use it.
 ```
-patchnetskope -h
+updateimage -h
+```
+Syntax of updateiamge
+```
+updateimage $[image} ${pipline/namespace} -${options}
+```
+Example of using updateimage in debug mode
+```
+updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 -n udp-data-ingestion-hourly-v2-patest -d
+```
+Example of using updateimage with builtin list
+```
+updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 hourly
+```
+Example of using updateimage with a namespace
+```
+updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 -n udp-data-ingestion-hourly-v2-patest
+```
+Example of using updateimage with a text file that contains a list of namespaces
+```
+updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 -f namespace.txt
 ```
