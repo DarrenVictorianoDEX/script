@@ -16,7 +16,7 @@ updateimage -h
 ```
 Syntax of updateiamge
 ```
-updateimage $[image} ${pipline/namespace} -${options}
+updateimage ${image} ${pipline/namespace} -${options}
 ```
 Example of using updateimage in debug mode
 ```
