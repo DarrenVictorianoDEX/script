@@ -24,7 +24,7 @@ updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 -n udp-data
 ```
 Example of using updateimage with builtin list
 ```
-updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 hourly
+updateimage gcr.io/dev-us-5g-ops-1/spark-data-lake:mp-master-gha-256 rt
 ```
 Example of using updateimage with a namespace
 ```
