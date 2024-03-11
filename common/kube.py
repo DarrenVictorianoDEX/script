@@ -56,7 +56,7 @@ def get_ns_list(pipeline):
     if pipeline in PATEST_PIPELINES:
         return PATEST_PIPELINES[pipeline]
     else:
-        raise KeyError(f'{pipeline} is not in the built in list of namespaces. \nTo view help provide `-h` option')
+        return pipeline
 
 
 def get_all_pods_status(namespace, counter=1):
