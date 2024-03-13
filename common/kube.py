@@ -55,6 +55,8 @@ def get_ns_list(pipeline):
     """
     if pipeline in PATEST_PIPELINES:
         return PATEST_PIPELINES[pipeline]
+    elif pipeline.lower() == "all":
+        return [pipeline for sublist in PATEST_PIPELINES.values() for pipeline in sublist]
     else:
         return pipeline
 
