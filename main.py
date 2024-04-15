@@ -8,13 +8,13 @@ def cli():
 
 @cli.command()
 @click.argument('image', type=str)
-@click.option('--name', '-n', help='single namespace to update.')
+@click.option('--namespace', '-n', help='single namespace to update.')
 @click.option('--name-from-file', '-f', type=click.Path(exists=True), help='list of namespace from a file.')
 @click.option('--name-from-list', '-l', type=click.Choice(kube.get_all_ns_keys()), help='builtin list of patest namespaces.')
 @click.option('--debug', '-d', is_flag=True, help='Turn on debug mode')
 @click.option('--boot', '-b', is_flag=True, help='Wait for pods to boot')
-def update_image(image, name, name_from_file, name_from_list, debug, boot):
-    name_args = [name, name_from_file, name_from_list]
+def update_image(image, namespace, name_from_file, name_from_list, debug, boot):
+    name_args = [namespace, name_from_file, name_from_list]
     num_provided = sum(1 for arg in name_args if arg is not None)
 
     if num_provided != 1:
@@ -23,8 +23,8 @@ def update_image(image, name, name_from_file, name_from_list, debug, boot):
                                \n -f (list of namespace from a txt file), \
                                \n -l (built-in list of patest namespace: {kube.get_all_ns_keys()})")
     
-    if name:
-        namespace_list = [name]
+    if namespace:
+        namespace_list = [namespace]
     elif name_from_file:
         namespace_list = utils.convert_txt_file_to_list(name_from_file)
     elif name_from_list:
