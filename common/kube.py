@@ -46,6 +46,9 @@ PATEST_PIPELINES = dict(
 )
 
 
+def get_all_ns_keys():
+    return PATEST_PIPELINES.keys()
+
 
 def get_ns_list(pipeline):
     """
