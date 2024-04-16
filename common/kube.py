@@ -50,6 +50,17 @@ def get_all_ns_keys():
     return PATEST_PIPELINES.keys()
 
 
+def get_current_context():
+    cmd = f"kubectl config current-context"
+    successful, stdout = utils.exec_cmd(cmd)
+    if not successful:
+        raise Exception(f'Failed to execute command: {cmd}')
+    elif not stdout:
+        print("command failed}")
+    else:
+        return stdout.strip().split("\n")
+
+
 def get_ns_list(pipeline):
     """
     gettter method for all built in pipelines
