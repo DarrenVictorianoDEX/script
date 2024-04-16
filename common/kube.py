@@ -361,7 +361,7 @@ def exec_reboot_namespace(cmd):
 def reboot_namespace_list(NS_list, debug=True):
     cmd_list = []
     for ns in NS_list:
-        cmd_list.append(f"kubectl delete pods -n {ns} --all")
+        cmd_list.append(f"kubectl -n {ns} delete pods --all")
     if debug:
         print("\n---------- Not rebooting because debug mode is ON ----------")
         for cmd in cmd_list:

@@ -105,5 +105,53 @@ def generate_bin(branch):
     )
 
 
+@cli.command()
+@click.option('--namespace', '-n', help='single namespace to update.')
+@click.option('--name-from-file', '-f', type=click.Path(exists=True), help='list of namespace from a file.')
+@click.option('--name-from-list', '-l', type=click.Choice(kube.get_all_ns_keys()), help='builtin list of patest namespaces.')
+@click.option('--debug', '-d', is_flag=True, help='Turn on debug mode')
+def reboot_jobs(namespace, name_from_file, name_from_list, debug):
+    """
+    Reboot UDP1 jobs. \n
+    built-in list for patest namespaces used for '-l' option: \t\t
+    ['test', 'rt', 'hr', 'clinic', 'discovery', 'spc', 'spc2']
+    """
+    click.echo(f"Your Current GCP Project is: \n{kube.get_current_context()} \n")
+    if not confirm("Are you in the correct GCP project?"):
+        click.echo("Reboot cancelled.")
+        return
+    
+    name_args = [namespace, name_from_file, name_from_list]
+    num_provided = sum(1 for arg in name_args if arg is not None)
+
+    if num_provided != 1:
+        raise click.UsageError(f"Exactly one of the option below must be provided. \
+                               \n -n (namespace), \
+                               \n -f (list of namespace from a txt file), \
+                               \n -l (built-in list of patest namespace: {kube.get_all_ns_keys()})")
+    
+    if namespace:
+        namespace_list = [namespace]
+    elif name_from_file:
+        namespace_list = utils.convert_txt_file_to_list(name_from_file)
+    elif name_from_list:
+        namespace_list = kube.get_ns_list(name_from_list)
+
+    if debug:
+        click.echo("------- DEBUG RUN -------")
+        click.echo(f"Rebooting {len(namespace_list)} Job/s listed below:")
+        for i in namespace_list:
+            click.echo(f'\t- {i}')
+        kube.reboot_namespace_list(NS_list=namespace_list, debug=True)
+    else:
+        click.echo("------- REAL RUN -------")
+        click.echo(f"Rebooting {len(namespace_list)} Job/s listed below:")
+        for i in namespace_list:
+            click.echo(f'- {i}')
+        kube.reboot_namespace_list(NS_list=namespace_list, debug=False)
+    
+    click.echo("------- ALL REBOOT DONE -------")
+
+
 if __name__ == '__main__':
     cli()
