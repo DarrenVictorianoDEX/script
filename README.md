@@ -9,7 +9,7 @@ alias vnv='conda activate ${your_env}; python {LOCAL_PATH}script/main.py'
 ## Usage
 The scripts are documented, just pass in `--help` to see how to use it.
 ```
-vnv update-image --help
+vnv --help
 ```
 Syntax of updateiamge
 ```

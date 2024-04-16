@@ -20,6 +20,8 @@ def cli():
 def update_image(image, namespace, name_from_file, name_from_list, debug, boot):
     """
     Update UDP1 job's Image.
+    built-in list for patest namespaces: (used for '-l' command)
+    ['test', 'rt', 'hr', 'clinic', 'discovery', 'spc', 'spc2']
     """
     click.echo(f"Your Current GCP Project is: \n{kube.get_current_context()} \n")
     if not confirm("Are you in the correct GCP project?"):
