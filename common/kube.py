@@ -46,6 +46,20 @@ PATEST_PIPELINES = dict(
 )
 
 
+def get_all_ns_keys():
+    return PATEST_PIPELINES.keys()
+
+
+def get_current_context():
+    cmd = f"kubectl config current-context"
+    successful, stdout = utils.exec_cmd(cmd)
+    if not successful:
+        raise Exception(f'Failed to execute command: {cmd}')
+    elif not stdout:
+        print("command failed}")
+    else:
+        return stdout.strip().split("\n")
+
 
 def get_ns_list(pipeline):
     """
@@ -347,7 +361,7 @@ def exec_reboot_namespace(cmd):
 def reboot_namespace_list(NS_list, debug=True):
     cmd_list = []
     for ns in NS_list:
-        cmd_list.append(f"kubectl delete pods -n {ns} --all")
+        cmd_list.append(f"kubectl -n {ns} delete pods --all")
     if debug:
         print("\n---------- Not rebooting because debug mode is ON ----------")
         for cmd in cmd_list:
