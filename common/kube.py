@@ -42,7 +42,8 @@ PATEST_PIPELINES = dict(
         "nimbus-rt-ingestion-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
         "nimbus-rt-reconcile-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd",
         "nimbus-rt-recovery-v2-vy4lhfvbsyo0hqs9nktepstzswjeaa44abcd"
-    ]
+    ],
+    all = ["test"]
 )
 
 
@@ -67,10 +68,10 @@ def get_ns_list(pipeline):
     :param (str)pipeline - name of the pipeline list
     :return (list)
     """
-    if pipeline in PATEST_PIPELINES:
+    if pipeline.lower() == "all":
+        return [pipeline for pipelines in PATEST_PIPELINES.values() if pipelines != PATEST_PIPELINES["all"] for pipeline in pipelines]
+    elif pipeline in PATEST_PIPELINES:
         return PATEST_PIPELINES[pipeline]
-    elif pipeline.lower() == "all":
-        return [pipeline for sublist in PATEST_PIPELINES.values() for pipeline in sublist]
     else:
         return pipeline
 
