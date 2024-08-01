@@ -92,7 +92,7 @@ def generate_bin(branch):
     """
 
     response = NILESUpload.request_to_receiver_api(
-        url="http://10.9.106.112:443/api/v1/",
+        url="http://10.9.107.16:443/api/v1",
         # if trying to upload to home
         # clarity_url="https://e2e-ous.clarity.dexcomdev.com/",
         clarity_username="g7TestAcc+6455751585@s6wlznzv.mailosaur.net",
