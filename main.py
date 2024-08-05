@@ -103,6 +103,8 @@ def generate_bin(branch):
         # save_bin_file_to="your new path + 'filename.bin'",
         # save_stdout_file_to="your new path + 'filename.txt'"
     )
+    click.echo("\nAPI Response:")
+    click.echo(response)
 
 
 @cli.command()
