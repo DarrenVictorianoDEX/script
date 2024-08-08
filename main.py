@@ -105,6 +105,7 @@ def generate_bin(branch):
     )
     click.echo("\nAPI Response:")
     click.echo(response)
+    utils.exec_cmd('say -v Ava "Hey yoh. Generation Complete."')
 
 
 @cli.command()
