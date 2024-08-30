@@ -90,7 +90,7 @@ def generate_bin(branch):
     If you already have your own bin file to upload, you dont need to run the
     request_to_receiver_api method
     """
-
+    # https://e2e-us.clarity.dexcomdev.com/
     response = NILESUpload.request_to_receiver_api(
         url="http://10.9.107.16:443/api/v1",
         # if trying to upload to home
